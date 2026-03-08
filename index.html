@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ArtikelMeister</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --der: #2563EB;
+    --die: #DB2777;
+    --das: #059669;
+    --bg: #0f0e17;
+    --card: #1a1826;
+    --text: #fffffe;
+    --muted: #a7a9be;
+    --accent: #ff8906;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  .bg-orbs { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; animation: float 8s ease-in-out infinite; }
+  .orb1 { width: 400px; height: 400px; background: var(--der); top: -100px; left: -100px; }
+  .orb2 { width: 300px; height: 300px; background: var(--die); bottom: -100px; right: -50px; animation-delay: 3s; }
+  .orb3 { width: 200px; height: 200px; background: var(--das); top: 50%; left: 50%; animation-delay: 6s; }
+  @keyframes float { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px,-30px) scale(1.05); } }
+  .phone { position: relative; z-index: 1; width: 100%; max-width: 390px; min-height: 100vh; display: flex; flex-direction: column; padding: 0 0 40px; }
+  .topbar { padding: 50px 28px 20px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
+  .logo span { color: var(--accent); }
+  .streak { display: flex; align-items: center; gap: 6px; background: rgba(255,137,6,0.15); border: 1px solid rgba(255,137,6,0.3); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; color: var(--accent); }
+  .progress-section { padding: 0 28px 30px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .progress-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--accent), #ffbe0b); transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .card-area { flex: 1; padding: 0 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+  .flashcard-wrap { width: 100%; perspective: 1000px; }
+  .flashcard { width: 100%; min-height: 240px; position: relative; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .card-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 32px; border: 1px solid rgba(255,255,255,0.06); }
+  .card-front { background: var(--card); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .card-back { transform: rotateY(180deg); background: var(--card); }
+  .word-de { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; letter-spacing: -1px; text-align: center; line-height: 1.1; }
+  .word-tr { font-size: 18px; color: var(--muted); text-align: center; }
+  .category-badge { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); background: rgba(255,255,255,0.05); padding: 4px 12px; border-radius: 20px; }
+  .tap-hint { font-size: 12px; color: rgba(167,169,190,0.5); display: flex; align-items: center; gap: 6px; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity:0.5 } 50% { opacity:1 } }
+  .artikel-buttons { width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .btn-artikel { padding: 18px 10px; border: none; border-radius: 16px; font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .btn-artikel:active { transform: scale(0.95); }
+  .btn-der { background: rgba(37,99,235,0.2); color: #60a5fa; border: 1.5px solid rgba(37,99,235,0.3); }
+  .btn-die { background: rgba(219,39,119,0.2); color: #f472b6; border: 1.5px solid rgba(219,39,119,0.3); }
+  .btn-das { background: rgba(5,150,105,0.2); color: #34d399; border: 1.5px solid rgba(5,150,105,0.3); }
+  .btn-artikel.correct { transform: scale(1.05); box-shadow: 0 0 20px currentColor; }
+  .btn-artikel.wrong { animation: wrongShake 0.4s ease; }
+  @keyframes wrongShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .result-toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0.8); background: var(--card); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 28px 40px; text-align: center; z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+  .result-toast.show { opacity: 1; transform: translate(-50%,-50%) scale(1); pointer-events: all; }
+  .result-emoji { font-size: 52px; margin-bottom: 12px; }
+  .result-text { font-size: 20px; font-weight: 500; margin-bottom: 6px; }
+  .result-sub { font-size: 14px; color: var(--muted); }
+  .stats-bar { display: flex; justify-content: center; gap: 32px; padding: 20px 28px 0; }
+  .stat { text-align: center; }
+  .stat-number { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .correct-color { color: var(--das); }
+  .wrong-color { color: var(--die); }
+  .streak-color { color: var(--accent); }
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .overlay.show { opacity: 1; pointer-events: all; }
+  .next-btn { width: 100%; padding: 16px; background: rgba(255,137,6,0.15); border: 1.5px solid rgba(255,137,6,0.4); border-radius: 16px; color: var(--accent); font-size: 16px; font-weight: 500; cursor: pointer; }
+  .next-btn.hidden { display: none; }
+  @keyframes slideInRight { from { transform: translateX(60px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  .card-enter { animation: slideInRight 0.4s ease; }
+</style>
+</head>
+<body>
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div class="overlay" id="overlay"></div>
+<div class="result-toast" id="resultToast">
+  <div class="result-emoji" id="resultEmoji">✅</div>
+  <div class="result-text" id="resultText">Doğru!</div>
+  <div class="result-sub" id="resultSub"></div>
+</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="logo">Artikel<span>.</span></div>
+    <div class="streak">🔥 <span id="streakCount">0</span> seri</div>
+  </div>
+  <div class="progress-section">
+    <div class="progress-label">
+      <span id="progressLabel">1 / 20</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+  </div>
+  <div class="card-area">
+    <div class="flashcard-wrap">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-face card-front">
+          <span class="category-badge" id="categoryBadge">Yiyecekler</span>
+          <div class="word-de" id="wordDe">Brot</div>
+          <div class="word-tr" id="wordTr">Ekmek</div>
+          <div class="tap-hint">👆 Çevir</div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:18px;color:var(--muted);margin-bottom:8px;">Doğru artikel:</div>
+          <div class="word-de" id="backArtikel" style="font-size:40px;">das</div>
+          <div class="word-de" id="backWord" style="font-size:32px;opacity:0.7;">Brot</div>
+          <div class="word-tr" id="backTr" style="margin-top:4px;">Ekmek</div>
+        </div>
+      </div>
+    </div>
+    <div class="artikel-buttons">
+      <button class="btn-artikel btn-der" onclick="checkArtikel('der')">der</button>
+      <button class="btn-artikel btn-die" onclick="checkArtikel('die')">die</button>
+      <button class="btn-artikel btn-das" onclick="checkArtikel('das')">das</button>
+    </div>
+    <button class="next-btn hidden" id="nextBtn" onclick="nextCard()">Sonraki kelime →</button>
+  </div>
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-number correct-color" id="correctCount">0</div>
+      <div class="stat-label">Doğru</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number wrong-color" id="wrongCount">0</div>
+      <div class="stat-label">Yanlış</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number streak-color" id="bestStreak">0</div>
+      <div class="stat-label">En iyi seri</div>
+    </div>
+  </div>
+</div>
+<script>
+const words = [
+  { de: "Brot", tr: "Ekmek", artikel: "das", cat: "Yiyecekler" },
+  { de: "Apfel", tr: "Elma", artikel: "der", cat: "Yiyecekler" },
+  { de: "Milch", tr: "Süt", artikel: "die", cat: "Yiyecekler" },
+  { de: "Wasser", tr: "Su", artikel: "das", cat: "İçecekler" },
+  { de: "Kaffee", tr: "Kahve", artikel: "der", cat: "İçecekler" },
+  { de: "Tee", tr: "Çay", artikel: "der", cat: "İçecekler" },
+  { de: "Haus", tr: "Ev", artikel: "das", cat: "Mekan" },
+  { de: "Stadt", tr: "Şehir", artikel: "die", cat: "Mekan" },
+  { de: "Straße", tr: "Sokak", artikel: "die", cat: "Mekan" },
+  { de: "Bahnhof", tr: "Tren istasyonu", artikel: "der", cat: "Mekan" },
+  { de: "Auto", tr: "Araba", artikel: "das", cat: "Ulaşım" },
+  { de: "Zug", tr: "Tren", artikel: "der", cat: "Ulaşım" },
+  { de: "Fahrrad", tr: "Bisiklet", artikel: "das", cat: "Ulaşım" },
+  { de: "Schule", tr: "Okul", artikel: "die", cat: "Eğitim" },
+  { de: "Buch", tr: "Kitap", artikel: "das", cat: "Eğitim" },
+  { de: "Hund", tr: "Köpek", artikel: "der", cat: "Hayvanlar" },
+  { de: "Katze", tr: "Kedi", artikel: "die", cat: "Hayvanlar" },
+  { de: "Kind", tr: "Çocuk", artikel: "das", cat: "İnsanlar" },
+  { de: "Mann", tr: "Adam / Erkek", artikel: "der", cat: "İnsanlar" },
+  { de: "Frau", tr: "Kadın", artikel: "die", cat: "İnsanlar" },
+];
+let shuffled = [...words].sort(() => Math.random() - 0.5);
+let currentIdx = 0, correct = 0, wrong = 0, streak = 0, bestStreak = 0, answered = false;
+function loadCard() {
+  if (currentIdx >= shuffled.length) { showFinal(); return; }
+  const w = shuffled[currentIdx];
+  answered = false;
+  const fc = document.getElementById('flashcard');
+  fc.classList.remove('flipped','card-enter');
+  void fc.offsetWidth;
+  fc.classList.add('card-enter');
+  document.getElementById('wordDe').textContent = w.de;
+  document.getElementById('wordTr').textContent = w.tr;
+  document.getElementById('categoryBadge').textContent = w.cat;
+  document.getElementById('backArtikel').textContent = w.artikel;
+  document.getElementById('backWord').textContent = w.de;
+  document.getElementById('backTr').textContent = w.tr;
+  const colors = { der: '#60a5fa', die: '#f472b6', das: '#34d399' };
+  document.getElementById('backArtikel').style.color = colors[w.artikel];
+  document.querySelectorAll('.btn-artikel').forEach(b => { b.style.opacity='1'; b.style.transform=''; b.className=b.className.replace(' correct','').replace(' wrong',''); });
+  document.getElementById('nextBtn').classList.add('hidden');
+  const pct = Math.round((currentIdx / shuffled.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = (currentIdx+1) + ' / ' + shuffled.length;
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
+function checkArtikel(chosen) {
+  if (answered) return;
+  answered = true;
+  const w = shuffled[currentIdx];
+  const isCorrect = chosen === w.artikel;
+  document.querySelectorAll('.btn-artikel').forEach(b => {
+    const isChosen = b.textContent === chosen;
+    const isRight = b.textContent === w.artikel;
+    if (isChosen && isCorrect) b.classList.add('correct');
+    else if (isChosen && !isCorrect) { b.classList.add('wrong'); b.style.opacity='0.4'; }
+    else if (!isChosen && isRight && !isCorrect) b.classList.add('correct');
+    else b.style.opacity='0.3';
+  });
+  if (isCorrect) { correct++; streak++; if(streak>bestStreak) bestStreak=streak; showToast('✅','Harika!',`${w.artikel} ${w.de} = ${w.tr}`); }
+  else { wrong++; streak=0; showToast('❌','Yanlış!',`Doğrusu: ${w.artikel} ${w.de}`); }
+  document.getElementById('correctCount').textContent = correct;
+  document.getElementById('wrongCount').textContent = wrong;
+  document.getElementById('streakCount').textContent = streak;
+  document.getElementById('bestStreak').textContent = bestStreak;
+  setTimeout(() => document.getElementById('flashcard').classList.add('flipped'), 300);
+  setTimeout(() => { hideToast(); document.getElementById('nextBtn').classList.remove('hidden'); }, 1800);
+}
+function nextCard() { currentIdx++; loadCard(); }
+function showToast(emoji, text, sub) {
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultText').textContent = text;
+  document.getElementById('resultSub').textContent = sub;
+  document.getElementById('resultToast').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+}
+function hideToast() {
+  document.getElementById('resultToast').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+}
+function showFinal() {
+  const total = correct + wrong;
+  const pct = Math.round((correct/total)*100);
+  document.querySelector('.card-area').innerHTML = `<div style="text-align:center;padding:40px 20px;"><div style="font-size:72px;margin-bottom:20px;">🏆</div><div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:900;margin-bottom:8px;">Tebrikler!</div><div style="color:var(--muted);font-size:16px;margin-bottom:32px;">Tüm kelimeler tamamlandı</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;"><div style="background:rgba(5,150,105,0.15);border:1px solid rgba(5,150,105,0.3);border-radius:16px;padding:20px;"><div style="font-size:36px;font-weight:700;color:#34d399;">${correct}</div><div style="font-size:13px;color:var(--muted);">Doğru</div></div><div style="background:rgba(219,39,119,0.15);border:1px solid rgba(219,39,119,0.3);border-radius:16px;padding:20px;"><div style="font-size:36px;font-weight:700;color:#f472b6;">${wrong}</div><div style="font-size:13px;color:var(--muted);">Yanlış</div></div></div><div style="font-size:52px;font-weight:900;font-family:'Playfair Display',serif;color:var(--accent);margin-bottom:8px;">%${pct}</div><div style="color:var(--muted);margin-bottom:32px;">başarı oranı</div><button onclick="location.reload()" style="width:100%;padding:18px;background:var(--accent);border:none;border-radius:16px;color:#0f0e17;font-size:17px;font-weight:700;cursor:pointer;">Tekrar Oyna 🔄</button></div>`;
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressPct').textContent = '100%';
+}
+loadCard();
+</script>
+</body>
+</html>

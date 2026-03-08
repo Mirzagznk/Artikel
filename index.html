@@ -6,27 +6,9 @@
 <title>ArtikelMeister</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --der: #2563EB;
-    --die: #DB2777;
-    --das: #059669;
-    --bg: #0f0e17;
-    --card: #1a1826;
-    --text: #fffffe;
-    --muted: #a7a9be;
-    --accent: #ff8906;
-  }
+  :root { --der: #2563EB; --die: #DB2777; --das: #059669; --bg: #0f0e17; --card: #1a1826; --text: #fffffe; --muted: #a7a9be; --accent: #ff8906; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
   .bg-orbs { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
   .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; animation: float 8s ease-in-out infinite; }
   .orb1 { width: 400px; height: 400px; background: var(--der); top: -100px; left: -100px; }
@@ -102,7 +84,7 @@
   </div>
   <div class="progress-section">
     <div class="progress-label">
-      <span id="progressLabel">1 / 20</span>
+      <span id="progressLabel">1 / 150</span>
       <span id="progressPct">0%</span>
     </div>
     <div class="progress-bar">
@@ -113,16 +95,16 @@
     <div class="flashcard-wrap">
       <div class="flashcard" id="flashcard" onclick="flipCard()">
         <div class="card-face card-front">
-          <span class="category-badge" id="categoryBadge">Yiyecekler</span>
-          <div class="word-de" id="wordDe">Brot</div>
-          <div class="word-tr" id="wordTr">Ekmek</div>
+          <span class="category-badge" id="categoryBadge">Aile & İnsanlar</span>
+          <div class="word-de" id="wordDe">Mann</div>
+          <div class="word-tr" id="wordTr">Adam</div>
           <div class="tap-hint">👆 Çevir</div>
         </div>
         <div class="card-face card-back">
           <div style="font-size:18px;color:var(--muted);margin-bottom:8px;">Doğru artikel:</div>
-          <div class="word-de" id="backArtikel" style="font-size:40px;">das</div>
-          <div class="word-de" id="backWord" style="font-size:32px;opacity:0.7;">Brot</div>
-          <div class="word-tr" id="backTr" style="margin-top:4px;">Ekmek</div>
+          <div class="word-de" id="backArtikel" style="font-size:40px;">der</div>
+          <div class="word-de" id="backWord" style="font-size:32px;opacity:0.7;">Mann</div>
+          <div class="word-tr" id="backTr" style="margin-top:4px;">Adam</div>
         </div>
       </div>
     </div>
@@ -150,26 +132,148 @@
 </div>
 <script>
 const words = [
-  { de: "Brot", tr: "Ekmek", artikel: "das", cat: "Yiyecekler" },
-  { de: "Apfel", tr: "Elma", artikel: "der", cat: "Yiyecekler" },
-  { de: "Milch", tr: "Süt", artikel: "die", cat: "Yiyecekler" },
-  { de: "Wasser", tr: "Su", artikel: "das", cat: "İçecekler" },
-  { de: "Kaffee", tr: "Kahve", artikel: "der", cat: "İçecekler" },
-  { de: "Tee", tr: "Çay", artikel: "der", cat: "İçecekler" },
-  { de: "Haus", tr: "Ev", artikel: "das", cat: "Mekan" },
-  { de: "Stadt", tr: "Şehir", artikel: "die", cat: "Mekan" },
-  { de: "Straße", tr: "Sokak", artikel: "die", cat: "Mekan" },
-  { de: "Bahnhof", tr: "Tren istasyonu", artikel: "der", cat: "Mekan" },
-  { de: "Auto", tr: "Araba", artikel: "das", cat: "Ulaşım" },
-  { de: "Zug", tr: "Tren", artikel: "der", cat: "Ulaşım" },
-  { de: "Fahrrad", tr: "Bisiklet", artikel: "das", cat: "Ulaşım" },
-  { de: "Schule", tr: "Okul", artikel: "die", cat: "Eğitim" },
-  { de: "Buch", tr: "Kitap", artikel: "das", cat: "Eğitim" },
+  { de: "Mann", tr: "Adam", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Frau", tr: "Kadın", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Kind", tr: "Çocuk", artikel: "das", cat: "Aile & İnsanlar" },
+  { de: "Vater", tr: "Baba", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Mutter", tr: "Anne", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Bruder", tr: "Erkek kardeş", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Schwester", tr: "Kız kardeş", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Sohn", tr: "Oğul", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Tochter", tr: "Kız evlat", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Großvater", tr: "Dede", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Großmutter", tr: "Büyükanne", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Onkel", tr: "Amca / Dayı", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Tante", tr: "Hala / Teyze", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Baby", tr: "Bebek", artikel: "das", cat: "Aile & İnsanlar" },
+  { de: "Junge", tr: "Erkek çocuk", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Mädchen", tr: "Kız çocuk", artikel: "das", cat: "Aile & İnsanlar" },
+  { de: "Ehemann", tr: "Koca", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Ehefrau", tr: "Eş (kadın)", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Freund", tr: "Erkek arkadaş", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Freundin", tr: "Kız arkadaş", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Nachbar", tr: "Komşu (erkek)", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Nachbarin", tr: "Komşu (kadın)", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Person", tr: "Kişi", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Mensch", tr: "İnsan", artikel: "der", cat: "Aile & İnsanlar" },
+  { de: "Familie", tr: "Aile", artikel: "die", cat: "Aile & İnsanlar" },
+  { de: "Kopf", tr: "Baş", artikel: "der", cat: "Vücut" },
+  { de: "Haar", tr: "Saç", artikel: "das", cat: "Vücut" },
+  { de: "Gesicht", tr: "Yüz", artikel: "das", cat: "Vücut" },
+  { de: "Auge", tr: "Göz", artikel: "das", cat: "Vücut" },
+  { de: "Ohr", tr: "Kulak", artikel: "das", cat: "Vücut" },
+  { de: "Nase", tr: "Burun", artikel: "die", cat: "Vücut" },
+  { de: "Mund", tr: "Ağız", artikel: "der", cat: "Vücut" },
+  { de: "Zahn", tr: "Diş", artikel: "der", cat: "Vücut" },
+  { de: "Hals", tr: "Boyun", artikel: "der", cat: "Vücut" },
+  { de: "Schulter", tr: "Omuz", artikel: "die", cat: "Vücut" },
+  { de: "Arm", tr: "Kol", artikel: "der", cat: "Vücut" },
+  { de: "Hand", tr: "El", artikel: "die", cat: "Vücut" },
+  { de: "Finger", tr: "Parmak", artikel: "der", cat: "Vücut" },
+  { de: "Bauch", tr: "Karın", artikel: "der", cat: "Vücut" },
+  { de: "Rücken", tr: "Sırt", artikel: "der", cat: "Vücut" },
+  { de: "Bein", tr: "Bacak", artikel: "das", cat: "Vücut" },
+  { de: "Knie", tr: "Diz", artikel: "das", cat: "Vücut" },
+  { de: "Fuß", tr: "Ayak", artikel: "der", cat: "Vücut" },
+  { de: "Herz", tr: "Kalp", artikel: "das", cat: "Vücut" },
+  { de: "Haut", tr: "Deri", artikel: "die", cat: "Vücut" },
+  { de: "Blut", tr: "Kan", artikel: "das", cat: "Vücut" },
+  { de: "Knochen", tr: "Kemik", artikel: "der", cat: "Vücut" },
+  { de: "Muskel", tr: "Kas", artikel: "der", cat: "Vücut" },
+  { de: "Gehirn", tr: "Beyin", artikel: "das", cat: "Vücut" },
+  { de: "Haus", tr: "Ev", artikel: "das", cat: "Ev & Eşyalar" },
+  { de: "Wohnung", tr: "Daire", artikel: "die", cat: "Ev & Eşyalar" },
+  { de: "Zimmer", tr: "Oda", artikel: "das", cat: "Ev & Eşyalar" },
+  { de: "Küche", tr: "Mutfak", artikel: "die", cat: "Ev & Eşyalar" },
+  { de: "Schlafzimmer", tr: "Yatak odası", artikel: "das", cat: "Ev & Eşyalar" },
+  { de: "Badezimmer", tr: "Banyo", artikel: "das", cat: "Ev & Eşyalar" },
+  { de: "Wohnzimmer", tr: "Oturma odası", artikel: "das", cat: "Ev & Eşyalar" },
+  { de: "Tür", tr: "Kapı", artikel: "die", cat: "Ev & Eşyalar" },
+  { de: "Fenster", tr: "Pencere", artikel: "das", cat: "Ev & Eşyalar" },
+  { de: "Boden", tr: "Zemin", artikel: "der", cat: "Ev & Eşyalar" },
+  { de: "Wand", tr: "Duvar", artikel: "die", cat: "Ev & Eşyalar" },
+  { de: "Treppe", tr: "Merdiven", artikel: "die", cat: "Ev & Eşyalar" },
+  { de: "Bett", tr: "Yatak", artikel: "das", cat: "Ev & Eşyalar" },
+  { de: "Tisch", tr: "Masa", artikel: "der", cat: "Ev & Eşyalar" },
+  { de: "Stuhl", tr: "Sandalye", artikel: "der", cat: "Ev & Eşyalar" },
+  { de: "Sofa", tr: "Kanepe", artikel: "das", cat: "Ev & Eşyalar" },
+  { de: "Schrank", tr: "Dolap", artikel: "der", cat: "Ev & Eşyalar" },
+  { de: "Lampe", tr: "Lamba", artikel: "die", cat: "Ev & Eşyalar" },
+  { de: "Spiegel", tr: "Ayna", artikel: "der", cat: "Ev & Eşyalar" },
+  { de: "Kühlschrank", tr: "Buzdolabı", artikel: "der", cat: "Ev & Eşyalar" },
+  { de: "Herd", tr: "Ocak", artikel: "der", cat: "Ev & Eşyalar" },
+  { de: "Waschmaschine", tr: "Çamaşır makinesi", artikel: "die", cat: "Ev & Eşyalar" },
+  { de: "Fernseher", tr: "Televizyon", artikel: "der", cat: "Ev & Eşyalar" },
+  { de: "Schlüssel", tr: "Anahtar", artikel: "der", cat: "Ev & Eşyalar" },
+  { de: "Brot", tr: "Ekmek", artikel: "das", cat: "Yiyecek & İçecek" },
+  { de: "Brötchen", tr: "Ekmek rulosu", artikel: "das", cat: "Yiyecek & İçecek" },
+  { de: "Butter", tr: "Tereyağı", artikel: "die", cat: "Yiyecek & İçecek" },
+  { de: "Käse", tr: "Peynir", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Ei", tr: "Yumurta", artikel: "das", cat: "Yiyecek & İçecek" },
+  { de: "Fleisch", tr: "Et", artikel: "das", cat: "Yiyecek & İçecek" },
+  { de: "Wurst", tr: "Sosis", artikel: "die", cat: "Yiyecek & İçecek" },
+  { de: "Fisch", tr: "Balık", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Apfel", tr: "Elma", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Banane", tr: "Muz", artikel: "die", cat: "Yiyecek & İçecek" },
+  { de: "Tomate", tr: "Domates", artikel: "die", cat: "Yiyecek & İçecek" },
+  { de: "Kartoffel", tr: "Patates", artikel: "die", cat: "Yiyecek & İçecek" },
+  { de: "Reis", tr: "Pirinç", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Nudel", tr: "Makarna", artikel: "die", cat: "Yiyecek & İçecek" },
+  { de: "Suppe", tr: "Çorba", artikel: "die", cat: "Yiyecek & İçecek" },
+  { de: "Salat", tr: "Salata", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Kuchen", tr: "Kek", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Wasser", tr: "Su", artikel: "das", cat: "Yiyecek & İçecek" },
+  { de: "Milch", tr: "Süt", artikel: "die", cat: "Yiyecek & İçecek" },
+  { de: "Saft", tr: "Meyve suyu", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Kaffee", tr: "Kahve", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Tee", tr: "Çay", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Bier", tr: "Bira", artikel: "das", cat: "Yiyecek & İçecek" },
+  { de: "Wein", tr: "Şarap", artikel: "der", cat: "Yiyecek & İçecek" },
+  { de: "Hemd", tr: "Gömlek", artikel: "das", cat: "Giyim" },
+  { de: "Bluse", tr: "Bluz", artikel: "die", cat: "Giyim" },
+  { de: "Pullover", tr: "Kazak", artikel: "der", cat: "Giyim" },
+  { de: "Jacke", tr: "Ceket", artikel: "die", cat: "Giyim" },
+  { de: "Mantel", tr: "Palto", artikel: "der", cat: "Giyim" },
+  { de: "Hose", tr: "Pantolon", artikel: "die", cat: "Giyim" },
+  { de: "Jeans", tr: "Kot pantolon", artikel: "die", cat: "Giyim" },
+  { de: "Rock", tr: "Etek", artikel: "der", cat: "Giyim" },
+  { de: "Kleid", tr: "Elbise", artikel: "das", cat: "Giyim" },
+  { de: "Anzug", tr: "Takım elbise", artikel: "der", cat: "Giyim" },
+  { de: "Socke", tr: "Çorap", artikel: "die", cat: "Giyim" },
+  { de: "Schuh", tr: "Ayakkabı", artikel: "der", cat: "Giyim" },
+  { de: "Stiefel", tr: "Çizme", artikel: "der", cat: "Giyim" },
+  { de: "Mütze", tr: "Bere", artikel: "die", cat: "Giyim" },
+  { de: "Schal", tr: "Atkı", artikel: "der", cat: "Giyim" },
+  { de: "Handschuh", tr: "Eldiven", artikel: "der", cat: "Giyim" },
+  { de: "Gürtel", tr: "Kemer", artikel: "der", cat: "Giyim" },
+  { de: "Tasche", tr: "Çanta", artikel: "die", cat: "Giyim" },
+  { de: "Brille", tr: "Gözlük", artikel: "die", cat: "Giyim" },
+  { de: "Ring", tr: "Yüzük", artikel: "der", cat: "Giyim" },
+  { de: "Kleidung", tr: "Giysi", artikel: "die", cat: "Giyim" },
   { de: "Hund", tr: "Köpek", artikel: "der", cat: "Hayvanlar" },
   { de: "Katze", tr: "Kedi", artikel: "die", cat: "Hayvanlar" },
-  { de: "Kind", tr: "Çocuk", artikel: "das", cat: "İnsanlar" },
-  { de: "Mann", tr: "Adam / Erkek", artikel: "der", cat: "İnsanlar" },
-  { de: "Frau", tr: "Kadın", artikel: "die", cat: "İnsanlar" },
+  { de: "Vogel", tr: "Kuş", artikel: "der", cat: "Hayvanlar" },
+  { de: "Pferd", tr: "At", artikel: "das", cat: "Hayvanlar" },
+  { de: "Kuh", tr: "İnek", artikel: "die", cat: "Hayvanlar" },
+  { de: "Schwein", tr: "Domuz", artikel: "das", cat: "Hayvanlar" },
+  { de: "Schaf", tr: "Koyun", artikel: "das", cat: "Hayvanlar" },
+  { de: "Huhn", tr: "Tavuk", artikel: "das", cat: "Hayvanlar" },
+  { de: "Ente", tr: "Ördek", artikel: "die", cat: "Hayvanlar" },
+  { de: "Maus", tr: "Fare", artikel: "die", cat: "Hayvanlar" },
+  { de: "Hase", tr: "Tavşan", artikel: "der", cat: "Hayvanlar" },
+  { de: "Bär", tr: "Ayı", artikel: "der", cat: "Hayvanlar" },
+  { de: "Wolf", tr: "Kurt", artikel: "der", cat: "Hayvanlar" },
+  { de: "Fuchs", tr: "Tilki", artikel: "der", cat: "Hayvanlar" },
+  { de: "Löwe", tr: "Aslan", artikel: "der", cat: "Hayvanlar" },
+  { de: "Elefant", tr: "Fil", artikel: "der", cat: "Hayvanlar" },
+  { de: "Affe", tr: "Maymun", artikel: "der", cat: "Hayvanlar" },
+  { de: "Schlange", tr: "Yılan", artikel: "die", cat: "Hayvanlar" },
+  { de: "Frosch", tr: "Kurbağa", artikel: "der", cat: "Hayvanlar" },
+  { de: "Spinne", tr: "Örümcek", artikel: "die", cat: "Hayvanlar" },
+  { de: "Biene", tr: "Arı", artikel: "die", cat: "Hayvanlar" },
+  { de: "Schmetterling", tr: "Kelebek", artikel: "der", cat: "Hayvanlar" },
+  { de: "Tiger", tr: "Kaplan", artikel: "der", cat: "Hayvanlar" },
+  { de: "Ratte", tr: "Sıçan", artikel: "die", cat: "Hayvanlar" },
 ];
 let shuffled = [...words].sort(() => Math.random() - 0.5);
 let currentIdx = 0, correct = 0, wrong = 0, streak = 0, bestStreak = 0, answered = false;
